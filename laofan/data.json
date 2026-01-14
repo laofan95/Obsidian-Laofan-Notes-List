@@ -1,0 +1,10 @@
+{
+  "pageSize": 20,
+  "autoScrollToActiveNote": true,
+  "showThumbnails": true,
+  "maxTagsDisplay": 4,
+  "enableDeleteAttachmentPrompt": true,
+  "enableDeleteFolderPrompt": true,
+  "showTimeTooltip": true,
+  "alwaysFocusCurrentTab": true
+}

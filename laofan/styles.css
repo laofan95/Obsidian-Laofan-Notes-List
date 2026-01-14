@@ -1,0 +1,867 @@
+/* Laofan Notes List 样式 - 现代化扁平化设计 */
+.laofan-notes-list-container {
+    padding: 0;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    background-color: var(--background-primary);
+}
+
+/* 手机端样式调整 */
+@media (max-width: 768px) {
+    /* 隐藏标题栏 */
+    .laofan-header-container {
+        display: none !important;
+    }
+    
+    /* 调整搜索框容器，为新建笔记按钮留出空间 */
+    .laofan-search-container {
+        justify-content: space-between;
+        gap: 8px;
+        padding: 4px;
+        top: 0;
+        width: 100%;
+    }
+    
+    /* 调整搜索框内部容器宽度和高度，为新建按钮留出空间 */
+    .laofan-search-inner {
+        width: calc(100% - 40px);
+        height: 32px;
+        max-width: none;
+    }
+    
+    /* 减小搜索输入框内边距，降低搜索框高度 */
+    .laofan-search-input {
+        padding: 6px 12px;
+        font-size: 13px;
+    }
+    
+    /* 调整新建笔记按钮位置到搜索框右边 */
+    .laofan-new-note-btn {
+        position: static;
+        width: 32px;
+        height: 32px;
+        margin: 0;
+        z-index: 10;
+    }
+    
+    /* 减小分类标签容器的边距和内边距 */
+    .laofan-category-container {
+        padding: 2px 4px 0;
+        gap: 6px;
+        margin: 0;
+        width: 100%;
+    }
+    
+    /* 减小分类标签按钮内边距 */
+    .laofan-category-btn {
+        padding: 2px 6px;
+        font-size: 13px;
+    }
+    
+    /* 笔记列表容器占满宽度 */
+    .laofan-notes-list {
+        width: 100%;
+    }
+    
+    /* 减小笔记项的边距和内边距，缩小右边距 */
+    .laofan-note-item {
+        padding: 8px 6px 8px 20px;
+        margin: 2px 0px 2px 4px;
+        width: calc(100% - 4px);
+        max-width: none;
+    }
+    
+    /* 减小笔记标题字体大小 */
+    .laofan-note-title {
+        font-size: 14px;
+        margin-bottom: 2px;
+        max-width: calc(100% - 50px);
+    }
+    
+    /* 减小笔记内容预览字体大小和边距 */
+    .laofan-note-content {
+        font-size: 12px;
+        margin-bottom: 6px;
+        max-width: calc(100% - 50px);
+    }
+    
+    /* 减小笔记底部信息栏字体大小 */
+    .laofan-note-info-bar {
+        font-size: 11px;
+        margin-top: 6px;
+    }
+    
+    /* 减小加载更多按钮的边距和内边距 */
+    .laofan-load-more-btn {
+        padding: 8px;
+        margin: 4px 0px 4px 4px;
+        font-size: 13px;
+        width: calc(100% - 4px);
+        max-width: none;
+    }
+    
+    /* 调整缩略图容器位置 */
+    .laofan-note-thumbnail {
+        width: 45px;
+        height: 45px;
+        right: -5px;
+    }
+}
+
+/* 标题栏 */
+.laofan-header-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 10px 0px;
+    background-color: var(--background-primary);
+    border-bottom: 1px solid var(--background-modifier-border);
+    position: relative;
+    top: -13px;
+}
+
+.laofan-header-title {
+    font-size: 18px;
+    font-weight: 500;
+    color: var(--text-normal);
+    margin: 0;
+    text-align: center;
+    flex: 1;
+}
+
+.laofan-new-note-btn {
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    padding: 6px;
+    border-radius: 4px;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    position: absolute;
+    right: 16px;
+}
+
+.laofan-new-note-btn svg {
+    width: 20px;
+    height: 20px;
+}
+
+.laofan-new-note-btn:hover {
+    background-color: var(--background-modifier-hover);
+}
+
+/* 筛选标签关闭按钮 */
+.laofan-filter-tag-close {
+    margin-left: 6px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: bold;
+    line-height: 1;
+    opacity: 0.7;
+    transition: opacity 0.2s ease;
+}
+
+.laofan-filter-tag-close:hover {
+    opacity: 1;
+}
+
+/* 搜索框容器 - 左对齐 */
+.laofan-search-container {
+    position: relative;
+    padding: 6px 4px 4px 4px;
+    background-color: var(--background-primary);
+    border-bottom: none;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    gap: 8px;
+    top: 0;
+}
+
+/* 搜索框内部容器 - 模拟输入框边框 */
+.laofan-search-inner {
+    display: flex;
+    align-items: center;
+    width: calc(100% - 16px);
+    max-width: 600px;
+    background-color: var(--background-primary);
+    border: 1px solid #58A5F5;
+    border-radius: 18px;
+    overflow: hidden;
+    transition: all 0.2s ease;
+    box-shadow: none;
+}
+
+/* 搜索框内部容器聚焦状态 - 更细的边框 */
+.laofan-search-inner:focus-within {
+    border-color: #58A5F5;
+    box-shadow: none;
+}
+
+/* 筛选标签容器 - 搜索框内部左侧，减少右侧间距 */
+.laofan-filter-tags-container {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 0 4px 0 1px;
+    margin: 0;
+    flex-shrink: 0;
+    height: 100%;
+    background-color: transparent;
+    border: none;
+    border-radius: 0;
+    overflow: visible;
+}
+
+/* 筛选标签 - 半透明紫色背景 */
+.laofan-filter-tag {
+    display: inline-flex;
+    align-items: center;
+    background-color: rgba(132, 93, 235, 0.15);
+    color: var(--text-accent);
+    padding: 4px 12px;
+    border-radius: 16px;
+    font-size: 14px;
+    margin: 0;
+    flex-shrink: 0;
+    pointer-events: auto;
+    backdrop-filter: blur(2px);
+    border: none;
+}
+
+/* 搜索输入框 - 无边框，与标签融合 */
+.laofan-search-input {
+    padding: 8px 16px;
+    border: none;
+    border-radius: 0;
+    background-color: transparent;
+    color: var(--text-normal);
+    font-size: 14px;
+    outline: none;
+    text-align: left;
+    box-shadow: none;
+    backdrop-filter: none;
+    width: auto;
+    max-width: none;
+    min-width: 0;
+    margin: 0;
+    flex: 1;
+}
+
+/* 搜索输入框占位符 - 初始居中，聚焦或有内容时左对齐 */
+.laofan-search-input::placeholder {
+    text-align: center;
+    color: var(--text-muted);
+    transition: text-align 0.2s ease;
+}
+
+/* 搜索输入框有焦点时，占位符左对齐 */
+.laofan-search-input:focus::placeholder {
+    text-align: left;
+}
+
+/* 搜索输入框焦点样式 - 移除边框和阴影，由父容器处理 */
+.laofan-search-input:focus {
+    border-color: transparent;
+    box-shadow: none;
+}
+
+/* 当有筛选标签时，搜索输入框样式保持不变 */
+.laofan-filter-tags-container:not(:empty) + .laofan-search-input {
+    border-radius: 0;
+    border-left: none;
+    width: auto;
+    max-width: none;
+}
+
+/* 当有筛选标签时，搜索输入框焦点样式 - 由父容器处理 */
+.laofan-filter-tags-container:not(:empty) + .laofan-search-input:focus {
+    border-left: none;
+    box-shadow: none;
+}
+
+/* 分类标签容器 - 更紧凑设计 */
+.laofan-category-container {
+    display: flex;
+    padding: 2px 4px 0px;
+    gap: 9px;
+    background-color: var(--background-primary);
+    border-bottom: none;
+    overflow-x: auto;
+    white-space: nowrap;
+    position: relative;
+    justify-content: flex-start;
+    max-width: 100%;
+    margin: 2px 0 -11px 0;
+    width: 100%;
+    flex-wrap: nowrap;
+    top: -15px;
+}
+
+/* 分类按钮 - 简化设计，仅保留蓝色文字 */
+.laofan-category-btn {
+    padding: 2px 8px;
+    border: none;
+    background: transparent;
+    color: var(--text-accent);
+    font-size: 14px;
+    cursor: pointer;
+    border-radius: 0;
+    transition: all 0.2s ease;
+    white-space: nowrap;
+    box-shadow: none !important;
+    backdrop-filter: none;
+    margin: 0;
+}
+
+.laofan-category-btn:hover {
+    background-color: transparent;
+    color: var(--text-accent-hover);
+    box-shadow: none !important;
+}
+
+.laofan-category-btn.active {
+    background-color: var(--background-modifier-active-hover);
+    color: var(--text-normal);
+    border: none;
+    font-weight: normal;
+    box-shadow: none !important;
+}
+
+/* 下拉按钮 - 简化设计 */
+.laofan-dropdown-btn {
+    padding: 2px 8px;
+    border: none;
+    background: transparent;
+    color: var(--text-accent);
+    font-size: 12px;
+    cursor: pointer;
+    border-radius: 0;
+    transition: all 0.2s ease;
+    white-space: nowrap;
+    margin-left: 0;
+    box-shadow: none !important;
+    backdrop-filter: none;
+}
+
+/* 标签下拉菜单 - 现代化扁平化设计 */
+.laofan-tag-dropdown {
+    position: absolute;
+    background-color: var(--background-primary);
+    border: 1px solid var(--background-modifier-border);
+    border-radius: 8px;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+    max-height: 800px;
+    min-height: auto;
+    overflow-y: auto;
+    z-index: 1000;
+    padding: 12px;
+    backdrop-filter: none;
+}
+
+/* 类型标题和折叠按钮容器 */
+.laofan-type-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--background-modifier-border);
+}
+
+/* 折叠按钮样式 */
+.laofan-modal-collapse-btn {
+    padding: 4px 8px;
+    border: none;
+    background-color: transparent;
+    color: var(--text-muted);
+    font-size: 14px;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: all 0.2s ease;
+    width: 28px;
+    height: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.laofan-modal-collapse-btn:hover {
+    background-color: var(--background-modifier-hover);
+    color: var(--text-accent);
+    transform: translateY(-1px);
+}
+
+/* 模态框部分标题 */
+.laofan-modal-section-title {
+    padding: 0 8px 8px;
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--text-muted);
+    border-bottom: 1px solid var(--background-modifier-border);
+    margin-bottom: 8px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+/* 模态框网格布局 */
+.laofan-modal-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
+    gap: 8px;
+    margin-bottom: 16px;
+}
+
+/* 模态框网格项 */
+.laofan-modal-grid-item {
+    padding: 8px 12px;
+    border: 1px solid var(--background-modifier-border);
+    background-color: var(--background-primary);
+    color: var(--text-normal);
+    font-size: 13px;
+    text-align: center;
+    cursor: pointer;
+    border-radius: 6px;
+    transition: all 0.2s ease;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* 优化数字样式，使其好看但不抢眼 */
+/* 主文本样式 */
+.laofan-modal-grid-text {
+    color: var(--text-normal);
+    font-weight: normal;
+}
+
+/* 数字样式，使其不那么抢眼 */
+.laofan-modal-grid-count {
+    color: var(--text-muted);
+    font-size: 12px;
+    font-weight: 400;
+    opacity: 0.8;
+}
+
+/* 激活状态下的文本样式 */
+.laofan-modal-grid-item.active .laofan-modal-grid-text {
+    color: white;
+    font-weight: 500;
+}
+
+/* 激活状态下的数字样式 */
+.laofan-modal-grid-item.active .laofan-modal-grid-count {
+    color: rgba(255, 255, 255, 0.9);
+    opacity: 1;
+}
+
+.laofan-modal-grid-item:hover {
+    background-color: var(--background-modifier-hover);
+    border-color: var(--text-accent);
+}
+
+.laofan-modal-grid-item.active {
+    background-color: var(--text-accent);
+    color: white;
+    border-color: var(--text-accent);
+}
+
+/* 确保网格布局在不同屏幕尺寸下都有良好表现 */
+@media (max-width: 600px) {
+    .laofan-modal-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+/* 标签下拉菜单滚动条样式 */
+.laofan-tag-dropdown::-webkit-scrollbar {
+    width: 6px;
+}
+
+.laofan-tag-dropdown::-webkit-scrollbar-track {
+    background: var(--background-secondary);
+    border-radius: 3px;
+}
+
+.laofan-tag-dropdown::-webkit-scrollbar-thumb {
+    background: var(--background-modifier-border);
+    border-radius: 3px;
+}
+
+.laofan-tag-dropdown::-webkit-scrollbar-thumb:hover {
+    background: var(--background-modifier-hover);
+}
+
+/* 优化总数量显示样式 */
+.laofan-modal-total-count {
+    display: block;
+    text-align: right;
+    padding: 8px;
+    font-size: 12px;
+    color: var(--text-muted);
+    border-top: 1px solid var(--background-modifier-border);
+    margin-top: 8px;
+    font-weight: 500;
+}
+
+/* 列表容器 */
+.laofan-notes-list {
+    flex: 1;
+    overflow-y: auto;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+/* 笔记项 - 现代化扁平化设计 */
+.laofan-note-item {
+    padding: 10px 19px 10px 30px; /* 上10px，右19px，下10px，左30px */
+    background-color: var(--background-primary);
+    border: 1px solid var(--background-modifier-border);
+    cursor: pointer;
+    transition: all 0.2s ease;
+    border-radius: 8px;
+    margin: 4px 6px 4px 0; /* 增加上下外边距到4px */
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+    backdrop-filter: none;
+    width: calc(100% - 6px); /* 调整宽度以适应新的右边距：0px左边距 + 6px右边距 */
+    max-width: 600px;
+    text-align: left;
+    position: relative;
+    padding-left: 25px; /* 为序列号留出空间 */
+}
+
+/* 确保笔记列表靠左对齐 */
+.laofan-notes-list {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    width: 100%;
+}
+
+/* Tooltip 样式 - 确保显示在右侧，与文件列表一致 */
+.laofan-note-item[data-tooltip] {
+    position: relative;
+}
+
+/* 覆盖 Obsidian 默认 tooltip 位置，使其显示在右侧 */
+.laofan-note-item .tooltip {
+    left: auto !important;
+    right: 0 !important;
+    transform: translateX(calc(100% + 8px)) translateY(-50%) !important;
+    top: 50% !important;
+    bottom: auto !important;
+}
+
+/* 确保 tooltip 箭头指向左侧（指向笔记项） */
+.laofan-note-item .tooltip::before {
+    left: -6px !important;
+    right: auto !important;
+    border-right-color: var(--background-primary) !important;
+    border-left-color: transparent !important;
+}
+
+/* 笔记序列号样式 - 优化为更柔和的设计 */
+.laofan-note-serial {
+    position: absolute;
+    left: 2px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 11px;
+    color: var(--text-muted);
+    font-weight: 400;
+    width: 20px;
+    text-align: center;
+    padding: 2px 0;
+    border-radius: 0;
+    background-color: transparent;
+}
+
+/* 选中状态下的序列号样式 */
+.laofan-note-item-active .laofan-note-serial {
+    color: var(--text-muted);
+    background-color: transparent;
+}
+
+.laofan-note-item:hover {
+    background-color: var(--background-modifier-hover);
+    border-color: var(--text-accent);
+    transform: translateY(0);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* 笔记项选中状态 - 现代化扁平化设计 */
+.laofan-note-item-active {
+    background-color: rgba(191, 179, 255, 0.2);
+    border: 1px solid rgba(132, 93, 235, 0.5);
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transform: translateY(0);
+    backdrop-filter: none;
+}
+
+/* 笔记内容容器 - 用于包含标题、内容和缩略图 */
+.laofan-note-content-container {
+    position: relative;
+    width: 100%;
+}
+
+/* 笔记缩略图容器 */
+.laofan-note-thumbnail {
+    position: absolute;
+    top: -5px;
+    right: -14px; /* 增加3px，让缩略图右边多出3px */
+    width: 60px;
+    height: 60px;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    color: var(--text-muted);
+    overflow: hidden;
+}
+
+/* 图片缩略图样式 */
+.laofan-note-thumbnail-image {
+    background-color: rgba(132, 93, 235, 0.1);
+    border: 1px solid rgba(132, 93, 235, 0.3);
+}
+
+/* 文件缩略图样式 */
+.laofan-note-thumbnail-file {
+    background-color: rgba(63, 133, 245, 0.1);
+    border: 1px solid rgba(63, 133, 245, 0.3);
+}
+
+/* 图片缩略图中的图片元素 */
+.laofan-note-thumbnail-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 4px;
+}
+
+/* 笔记标题 */
+.laofan-note-title {
+    font-size: 16px;
+    font-weight: 500;
+    color: var(--text-normal);
+    margin-bottom: 4px;
+    line-height: 1.4;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    max-width: calc(100% - 48px); /* 为缩略图留出更多空间 */
+}
+
+/* 笔记内容预览 */
+.laofan-note-content {
+    font-size: 14px;
+    color: var(--text-muted);
+    margin-bottom: 8px;
+    line-height: 1.5;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    max-width: calc(100% - 48px); /* 为缩略图留出更多空间 */
+}
+
+/* 加载更多按钮 */
+.laofan-load-more-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px;
+    background-color: var(--background-secondary);
+    border: 1px solid var(--background-modifier-border);
+    border-radius: 8px;
+    margin: 6px 6px 6px 0;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    color: var(--text-muted);
+    font-size: 14px;
+    text-align: center;
+    width: calc(100% - 6px);
+    max-width: 600px;
+}
+
+.laofan-load-more-btn:hover {
+    background-color: var(--background-modifier-hover);
+    color: var(--text-normal);
+    border-color: var(--text-accent);
+}
+
+/* 笔记底部信息栏 */
+.laofan-note-info-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 8px;
+    font-size: 12px;
+}
+
+/* 标签容器 - 左侧 */
+.laofan-note-tags-container {
+    color: var(--text-muted);
+    max-width: 60%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    display: flex;
+    align-items: center;
+    flex-wrap: nowrap;
+}
+
+/* 时间容器 - 右侧 */
+.laofan-note-time-container {
+    color: var(--text-faint);
+}
+
+/* 标签项 */
+.laofan-note-tag-item {
+    display: inline-flex;
+    align-items: center;
+    cursor: pointer;
+    color: var(--text-accent);
+    transition: color 0.2s ease;
+}
+
+.laofan-note-tag-item:hover {
+    color: var(--text-accent-hover);
+}
+
+/* 标签图标 */
+.laofan-note-tag-icon {
+    margin-right: 4px;
+    font-size: 10px;
+    opacity: 0.8;
+}
+
+/* 标签文本 */
+.laofan-note-tag-text {
+    font-size: 12px;
+}
+
+/* 标签分隔符 */
+.laofan-note-tag-separator {
+    margin: 0 4px;
+    color: var(--text-muted);
+}
+
+/* 兼容旧样式类 */
+.laofan-note-time {
+    color: var(--text-faint);
+}
+
+.laofan-note-tags {
+    color: var(--text-muted);
+    max-width: 60%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+/* 搜索高亮样式 */
+.laofan-search-highlight {
+    background-color: var(--text-accent-hover);
+    color: var(--text-accent);
+    font-weight: 600;
+    padding: 0 2px;
+}
+
+/* 空状态 */
+.laofan-empty-state {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 200px;
+    color: var(--text-muted);
+    font-size: 14px;
+    padding: 40px;
+}
+
+/* 删除确认对话框样式 - 完全透明背景，可以看到后面的笔记 */
+.laofan-delete-modal-container .modal-bg {
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    background-color: transparent !important;
+    background: transparent !important;
+}
+
+/* 移除 body 上的模糊效果（如果有的话） */
+body:has(.laofan-delete-modal-container) .app-container {
+    filter: none !important;
+}
+
+/* 删除确认对话框内容样式 */
+.laofan-delete-modal-message {
+    margin-bottom: 20px;
+    white-space: pre-line;
+    line-height: 1.6;
+}
+
+.laofan-delete-modal-buttons {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+/* 笔记数量显示 - 仅在滚动到底部时显示 */
+.laofan-notes-count {
+    padding: 12px 16px;
+    text-align: center;
+    color: var(--text-muted);
+    font-size: 14px;
+    background-color: var(--background-primary);
+    border-top: 1px solid var(--background-modifier-border);
+    position: sticky;
+    bottom: 0;
+    z-index: 10;
+}
+
+/* 快速置顶按钮 - 固定在右下角 */
+.laofan-scroll-to-top-btn {
+    position: fixed;
+    bottom: 40px;
+    right: 40px;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background-color: var(--interactive-normal);
+    color: var(--text-normal);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+    transition: all 0.3s ease;
+    z-index: 1000;
+    border: none;
+    opacity: 0.8;
+}
+
+.laofan-scroll-to-top-btn:hover {
+    background-color: var(--interactive-hover);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    opacity: 1;
+}
+
+.laofan-scroll-to-top-btn svg {
+    width: 18px;
+    height: 18px;
+}
+
